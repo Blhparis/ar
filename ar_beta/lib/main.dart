@@ -192,54 +192,79 @@ class FourthScreen extends StatelessWidget {
 
   @override
   Widget build (BuildContext ctxt) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.brown)
-                      )
-                  )
-              ),
-
-              onPressed: () {
-                Navigator.push(ctxt,
-                  MaterialPageRoute(builder: (ctxt) => FifthScreen()),
-                );
-              },
-              child: const Text('Sign in with Email'),
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.white,
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container (
+              padding: const EdgeInsets.only(bottom: 120.0),
+              child: const Text(
+                  'Discover and shop',
+                  style: TextStyle(color: Color(0xFF472723), fontSize: 16, decoration: TextDecoration.none)),
             ),
-          ),
 
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: ElevatedButton(
-              style: ButtonStyle(
-                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18.0),
-                          side: const BorderSide(color: Colors.brown)
-                      )
-                  )
-              ),
-
-              onPressed: () {
-                Navigator.push(ctxt,
-                  MaterialPageRoute(builder: (ctxt) => FifthScreen()),
-                );
-              },
-              child: const Text('Sign in with Facebook'),
+            Container (
+              padding: const EdgeInsets.only(bottom: 50.0,left: 60.0, right: 60.0),
+              child: const Text(
+                  'The Best Beauty Trends',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontWeight: FontWeight.bold, color: Color(0xFF472723), fontSize: 42, decoration: TextDecoration.none)),
             ),
-          ),
-        ],
+
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              width: 350,
+              height: 70,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                        )
+                    )
+                ),
+
+                onPressed: () {
+                  Navigator.push(ctxt,
+                    MaterialPageRoute(builder: (ctxt) => const FifthScreen()),
+                  );
+                },
+                child: const Text('Continue with Facebook', style: TextStyle(color: Colors.black, fontSize: 18)),
+              ),
+            ),
+
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              width: 350,
+              height: 70,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25.0),
+                        )
+                    )
+                ),
+
+                onPressed: () {
+                  Navigator.push(ctxt,
+                    MaterialPageRoute(builder: (ctxt) => const FifthScreen()),
+                  );
+                },
+                child: const Text('Continue with email', style: TextStyle(color: Colors.black, fontSize: 18)),
+              ),
+            ),
+          ],
+        ),
       ),
     );
+
   }
 }
 
@@ -248,25 +273,280 @@ class FifthScreen extends StatelessWidget {
 
   @override
   Widget build (BuildContext ctxt) {
-    return Column(
-      children: <Widget>[
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
+      ),
+      body: Column(
+        children: <Widget> [
 
-        Expanded(
-          child: Align(
-            alignment: Alignment.bottomRight,
-            child: Container(
-              padding: const EdgeInsets.all(16.0),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(ctxt, MaterialPageRoute(builder: (ctxt) => new FirstScreen()),
-                  );
-                },
-                child: const Text('Next', style: TextStyle(color: Colors.black)),
+          Container(
+            padding: const EdgeInsets.only(top: 10.0, left: 24.0, bottom: 10.0),
+            alignment: Alignment.topLeft,
+            child: const Text(
+            'Category',
+            textAlign: TextAlign.left,
+            style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontWeight: FontWeight.normal, color: Colors.black, fontSize: 36, decoration: TextDecoration.none),
+            )
+          ),
+
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                width: 182,
+                height: 170,
+                //decoration: BoxDecoration(
+                //  image: DecorationImage(
+                //    image:
+                //  )
+                //),
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(const Color(0xFFEDE0D6)),
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          )
+                      )
+                  ),
+                    onPressed: null,
+                    child:
+                    Container(
+                      padding: const EdgeInsets.only(top: 70.0),
+                        child: const Text('Wigs', style: TextStyle(fontSize: 20, color: Colors.black))
+                    ),
+                ),
               ),
+
+
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                width: 182,
+                height: 170,
+                //decoration: BoxDecoration(
+                //  image: DecorationImage(
+                //    image:
+                //  )
+                //),
+                child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(const Color(0xFFF0E7DA)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            )
+                        )
+                    ),
+                    onPressed: null,
+                    child: Container(
+                        padding: const EdgeInsets.only(top: 70.0),
+                        child: const Text('Bundles', style: TextStyle(fontSize: 20, color: Colors.black))
+                    ),
+                ),
+              ),
+            ]
+          ),
+
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  width: 182,
+                  height: 170,
+                  //decoration: BoxDecoration(
+                  //  image: DecorationImage(
+                  //    image:
+                  //  )
+                  //),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFFF0E7DA)),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              )
+                          )
+                      ),
+                      onPressed: null,
+                      child: Container(
+                          padding: const EdgeInsets.only(top: 70.0),
+                          child: const Text('Clip-ins', style: TextStyle(fontSize: 20, color: Colors.black))
+                      ),
+                  ),
+                ),
+
+
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  width: 182,
+                  height: 170,
+                  //decoration: BoxDecoration(
+                  //  image: DecorationImage(
+                  //    image:
+                  //  )
+                  //),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFFEDE0D6)),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              )
+                          )
+                      ),
+                      onPressed: null,
+                      child: Container(
+                          padding: const EdgeInsets.only(top: 70.0),
+                          child: const Text('Medical', style: TextStyle(fontSize: 20, color: Colors.black))
+                      ),
+                  ),
+                ),
+              ]
+          ),
+
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  width: 182,
+                  height: 170,
+                  //decoration: BoxDecoration(
+                  //  image: DecorationImage(
+                  //    image:
+                  //  )
+                  //),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFFEDE0D6)),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              )
+                          )
+                      ),
+                      onPressed: null,
+                      child: Container(
+                          padding: const EdgeInsets.only(top: 70.0),
+                          child: const Text('Hair Care', style: TextStyle(fontSize: 20, color: Colors.black))
+                      ),
+                  ),
+                ),
+
+
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  width: 182,
+                  height: 170,
+                  //decoration: BoxDecoration(
+                  //  image: DecorationImage(
+                  //    image:
+                  //  )
+                  //),
+                  child: ElevatedButton(
+                      style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(const Color(0xFFF0E7DA)),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                              RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              )
+                          )
+                      ),
+                      onPressed: null,
+                      child: Container(
+                          padding: const EdgeInsets.only(top: 70.0),
+                          child: const Text('Accessories', style: TextStyle(fontSize: 20, color: Colors.black))
+                      ),
+                  ),
+                ),
+              ]
+          ),
+
+        ],
+      ),
+
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: Container(
+            height: 80.0,
+            decoration: const BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: Colors.grey,
+                )
+              )
             ),
+
+
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                child: const TextButton(
+                  onPressed: null,
+                  child: Icon(
+                    Icons.house_outlined,
+                    size: 30.0,
+                  ),
+                ),
+              ),
+
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                child: const TextButton(
+                  onPressed: null,
+                  child: Icon(
+                      Icons.search,
+                      size: 30.0,
+                  ),
+                ),
+              ),
+
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                child: const TextButton(
+                  onPressed: null,
+                  child: Icon(
+                      Icons.shopping_bag_outlined,
+                      size: 30.0,
+                  ),
+                ),
+              ),
+
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                child: const TextButton(
+                  onPressed: null,
+                  child: Icon(
+                      Icons.favorite_border,
+                      size: 30.0,
+                  ),
+                ),
+              ),
+
+              Container(
+                padding: const EdgeInsets.all(5.0),
+                child: const TextButton(
+                  onPressed: null,
+                  child: Icon(
+                      Icons.person_outline,
+                      size: 30.0,
+                  ),
+                ),
+              ),
+            ]
           ),
         ),
-      ],
+      ),
+
     );
+
   }
 }
