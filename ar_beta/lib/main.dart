@@ -1,36 +1,44 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:camera/camera.dart';
 import 'package:video_player/video_player.dart';
+import 'package:path/path.dart';
+import 'package:async/async.dart';
+import 'package:dio/dio.dart';
 
+//Declaring global variables
 List<CameraDescription>? cameras;
+final GlobalKey<ScaffoldState> _scaffoldstate = GlobalKey<ScaffoldState>();
 
+//Main function
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   cameras = await availableCameras();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
+//Main app class
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext ctxt) {
+  Widget build(BuildContext context) {
     return const MaterialApp(
       home: FirstScreen(),
     );
   }
 }
 
+//First Screen app
 class FirstScreen extends StatelessWidget {
   const FirstScreen({Key? key}) : super(key: key);
 
 
   @override
-  Widget build (BuildContext ctxt) {
+  Widget build (BuildContext context) {
     return Container(
+        //Background colour
         decoration: const BoxDecoration(
           color: Color(0xFFFCF8F1),
         ),
@@ -39,7 +47,7 @@ class FirstScreen extends StatelessWidget {
 
             Container(
               margin: const EdgeInsets.only(top:70.0),
-              child: Image.asset('assets/images/FirstPageLogo.jpg')
+              child: Image.asset('assets/images/FirstPageLogo.png')
             ),
 
             Container(
@@ -60,6 +68,7 @@ class FirstScreen extends StatelessWidget {
                 )
             ),
 
+            //Next Button
             Expanded(
               child: Align(
                 alignment: Alignment.bottomRight,
@@ -67,7 +76,7 @@ class FirstScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(ctxt, MaterialPageRoute(builder: (ctxt) => SecondScreen()),
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SecondScreen()),
                       );
                     },
                     child: const Text('Next', style: TextStyle(color: Colors.black)),
@@ -81,17 +90,18 @@ class FirstScreen extends StatelessWidget {
   }
 }
 
+//Second screen class
 class SecondScreen extends StatelessWidget {
   const SecondScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build (BuildContext ctxt) {
+  Widget build (BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(0.0),
       decoration: const BoxDecoration(
         color: Colors.white,
         image: DecorationImage(
-          image: AssetImage('assets/images/SecondPageImage.jpg'),
+          image: AssetImage('assets/images/SecondPageImage.png'),
           fit: BoxFit.fitWidth,
         ),
       ),
@@ -121,11 +131,12 @@ class SecondScreen extends StatelessWidget {
                   )
               ),
 
+              //Next button
               Container(
                     padding: const EdgeInsets.only(top:30.0, left:300.0),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.push(ctxt, MaterialPageRoute(builder: (ctxt) => const ThirdScreen()),
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ThirdScreen()),
                         );
                       },
                       child: const Text('Next', style: TextStyle(color: Colors.black)),
@@ -138,27 +149,27 @@ class SecondScreen extends StatelessWidget {
   }
 }
 
+//Third Screen class
 class ThirdScreen extends StatelessWidget {
   const ThirdScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build (BuildContext ctxt) {
+  Widget build (BuildContext context) {
     return Container(
         margin: const EdgeInsets.all(0.0),
         decoration: const BoxDecoration(
           color: Color(0xFFFBF7F2),
           image: DecorationImage(
-            image: AssetImage('assets/images/ThirdPageImage.jpg'),
-            fit: BoxFit.fitWidth,
+            image: AssetImage('assets/images/ThirdPageImage.png'),
+            fit: BoxFit.fitHeight,
             alignment: Alignment.topCenter,
           ),
         ),
 
         child: Column(
           children: <Widget>[
-
             Container(
-                padding: const EdgeInsets.only(top:540.0),
+                padding: const EdgeInsets.only(top:560.0),
                 child: const Text(
                     'Virtually Try-on',
                     textAlign: TextAlign.center,
@@ -175,6 +186,7 @@ class ThirdScreen extends StatelessWidget {
                 )
             ),
 
+            //Next button
             Expanded(
               child: Align(
                 alignment: Alignment.bottomRight,
@@ -182,7 +194,7 @@ class ThirdScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(16.0),
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(ctxt, MaterialPageRoute(builder: (ctxt) => FourthScreen()),
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const FourthScreen()),
                       );
                     },
                     child: const Text('Next', style: TextStyle(color: Colors.black)),
@@ -196,11 +208,12 @@ class ThirdScreen extends StatelessWidget {
   }
 }
 
+//Fourth Screen class
 class FourthScreen extends StatelessWidget {
   const FourthScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build (BuildContext ctxt) {
+  Widget build (BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -224,6 +237,7 @@ class FourthScreen extends StatelessWidget {
                   style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontWeight: FontWeight.bold, color: Color(0xFF472723), fontSize: 42, decoration: TextDecoration.none)),
             ),
 
+            //Rounded rectangle button
             Container(
               padding: const EdgeInsets.all(10.0),
               width: 350,
@@ -239,14 +253,15 @@ class FourthScreen extends StatelessWidget {
                 ),
 
                 onPressed: () {
-                  Navigator.push(ctxt,
-                    MaterialPageRoute(builder: (ctxt) => const FifthScreen()),
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const FifthScreen()),
                   );
                 },
                 child: const Text('Continue with Facebook', style: TextStyle(color: Colors.black, fontSize: 18)),
               ),
             ),
 
+            //Rounded rectangle button
             Container(
               padding: const EdgeInsets.all(10.0),
               width: 350,
@@ -262,8 +277,8 @@ class FourthScreen extends StatelessWidget {
                 ),
 
                 onPressed: () {
-                  Navigator.push(ctxt,
-                    MaterialPageRoute(builder: (ctxt) => const FifthScreen()),
+                  Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const FifthScreen()),
                   );
                 },
                 child: const Text('Continue with email', style: TextStyle(color: Colors.black, fontSize: 18)),
@@ -277,12 +292,15 @@ class FourthScreen extends StatelessWidget {
   }
 }
 
+//Fifth screen class
 class FifthScreen extends StatelessWidget {
   const FifthScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build (BuildContext ctxt) {
+  Widget build (BuildContext context) {
+    //Scaffold allows for top bar and bottom bar
     return Scaffold(
+      //Top bar
       appBar: AppBar(
         backgroundColor: Colors.white,
         iconTheme: const IconThemeData(
@@ -324,9 +342,9 @@ class FifthScreen extends StatelessWidget {
                       )
                   ),
                     onPressed: () {
-                      Navigator.push(ctxt,
+                      Navigator.push(context,
                         //Temporary Line
-                        MaterialPageRoute(builder: (ctxt) => const SixthScreen()),
+                        MaterialPageRoute(builder: (context) => const SixthScreen()),
                       );
                      },
                     child:
@@ -555,6 +573,7 @@ class FifthScreen extends StatelessWidget {
         ],
       ),
 
+      //Bottom bar
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
         child: Container(
@@ -635,11 +654,12 @@ class FifthScreen extends StatelessWidget {
   }
 }
 
+//Sixth screen class
 class SixthScreen extends StatelessWidget {
   const SixthScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext ctxt) {
+  Widget build(BuildContext context) {
 
     return Scaffold(
           body: Container(
@@ -648,7 +668,7 @@ class SixthScreen extends StatelessWidget {
             child: ListView(
                 children: <Widget>[
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       image: DecorationImage(
                         image: AssetImage('assets/images/Page6Face.png'),
                         fit: BoxFit.cover,
@@ -661,22 +681,22 @@ class SixthScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(top: 40.0, left: 15.0, bottom: 10.0),
-                              child: Text('Featured collection',
+                              margin: const EdgeInsets.only(top: 40.0, left: 15.0, bottom: 10.0),
+                              child: const Text('Featured collection',
                                 style: TextStyle(fontSize: 18, color: Color(0xFF472723)),
                               ),
                             ),
 
                             Container(
-                              margin: EdgeInsets.only(top: 10.0, left: 15.0, bottom: 2.0),
-                              child: Text('Lace Front',
+                              margin: const EdgeInsets.only(top: 10.0, left: 15.0, bottom: 2.0),
+                              child: const Text('Lace Front',
                                 style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontWeight: FontWeight.bold,fontSize: 48, color: Colors.white),
                               ),
                             ),
 
                             Container(
-                              margin: EdgeInsets.only(top: 2.0, left: 15.0, bottom: 5.0),
-                              child: Text('Wigs',
+                              margin: const EdgeInsets.only(top: 2.0, left: 15.0, bottom: 5.0),
+                              child: const Text('Wigs',
                                 style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontWeight: FontWeight.bold,fontSize: 48, color: Colors.white),
                               ),
                             ),
@@ -685,7 +705,7 @@ class SixthScreen extends StatelessWidget {
                   ),
 
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color(0xFFFCF8F1),
                     ),
                     child: Column(
@@ -693,15 +713,15 @@ class SixthScreen extends StatelessWidget {
                         Row(
                             children:<Widget>[
                               Container(
-                                margin: EdgeInsets.only(top: 20.0, left: 20.0, bottom: 10.0),
-                                child: Text('New Arrivals',
+                                margin: const EdgeInsets.only(top: 20.0, left: 20.0, bottom: 10.0),
+                                child: const Text('New Arrivals',
                                   style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontSize: 20),
                                 ),
                               ),
 
                               Container(
-                                margin: EdgeInsets.only(top: 20.0, left: 170.0, bottom: 10.0),
-                                child: TextButton(
+                                margin: const EdgeInsets.only(top: 20.0, left: 145.0, bottom: 10.0),
+                                child: const TextButton(
                                   onPressed: null,
                                   child:Text('View all'),
                                 )
@@ -711,24 +731,24 @@ class SixthScreen extends StatelessWidget {
                         ),
 
                         Container(
-                          margin: EdgeInsets.only(left: 20.0, top: 10.0, bottom: 20.0),
+                          margin: const EdgeInsets.only(left: 20.0, top: 10.0, bottom: 20.0),
                           width: 400,
                           height: 300,
                           child: ListView(
                               scrollDirection: Axis.horizontal,
                               children: [
                                 Container(
-                                    margin: EdgeInsets.only(right: 5.0),
+                                    margin: const EdgeInsets.only(right: 5.0),
                                     height: 100,
                                     width: 200,
                                     child: TextButton(
                                         style:  ButtonStyle(
-                                          backgroundColor: MaterialStateProperty.all((Color(0xFFFCF8F1))),
+                                          backgroundColor: MaterialStateProperty.all((const Color(0xFFFCF8F1))),
                                         ),
                                         onPressed: () {
-                                          Navigator.push(ctxt,
+                                          Navigator.push(context,
                                             //Temporary Line
-                                            MaterialPageRoute(builder: (ctxt) => SeventhScreen()),
+                                            MaterialPageRoute(builder: (context) => const SeventhScreen()),
                                           );
                                         },
                                         child:Column(
@@ -741,29 +761,29 @@ class SixthScreen extends StatelessWidget {
 
 
                                               Container(
-                                                margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                                child: Text('Harly Babie',
+                                                margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                                child: const Text('Harly Babie',
                                                   style: TextStyle(color: Colors.grey, fontSize: 12),
                                                 ),
                                               ),
 
                                               Container(
-                                                margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                                child: Text('Bob Wig',
+                                                margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                                child: const Text('Bob Wig',
                                                   style: TextStyle(color: Colors.black, fontSize: 14),
                                                 ),
                                               ),
                                               Row(
                                                   children: <Widget> [
                                                     Container(
-                                                      margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                                      child: Text('\$100.0',
+                                                      margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                                      child: const Text('\$100.0',
                                                         style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
                                                       ),
                                                     ),
                                                     Container(
-                                                      margin: EdgeInsets.only(left: 90.0),
-                                                      child: Icon(Icons.favorite_border),
+                                                      margin: const EdgeInsets.only(left: 90.0),
+                                                      child: const Icon(Icons.favorite_border),
                                                     ),
 
                                                   ]
@@ -773,17 +793,17 @@ class SixthScreen extends StatelessWidget {
                                     ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(right: 5.0),
+                                  margin: const EdgeInsets.only(right: 5.0),
                                   height: 100,
                                   width: 200,
                                   child: TextButton(
                                       style:  ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all((Color(0xFFFCF8F1))),
+                                        backgroundColor: MaterialStateProperty.all((const Color(0xFFFCF8F1))),
                                       ),
                                       onPressed: () {
-                                        Navigator.push(ctxt,
+                                        Navigator.push(context,
                                           //Temporary Line
-                                          MaterialPageRoute(builder: (ctxt) => SeventhScreen()),
+                                          MaterialPageRoute(builder: (context) => const SeventhScreen()),
                                         );
                                       },
                                       child:Column(
@@ -796,29 +816,29 @@ class SixthScreen extends StatelessWidget {
 
 
                                             Container(
-                                              margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                              child: Text('Cos Beauty',
+                                              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                              child: const Text('Cos Beauty',
                                                 style: TextStyle(color: Colors.grey, fontSize: 12),
                                               ),
                                             ),
 
                                             Container(
-                                              margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                              child: Text('Deep Wave Wig',
+                                              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                              child: const Text('Deep Wave Wig',
                                                 style: TextStyle(color: Colors.black, fontSize: 14),
                                               ),
                                             ),
                                             Row(
                                                 children: <Widget> [
                                                   Container(
-                                                    margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                                    child: Text('\$120.00',
+                                                    margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                                    child: const Text('\$120.00',
                                                       style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
                                                   Container(
-                                                    margin: EdgeInsets.only(left: 90.0),
-                                                    child: Icon(Icons.favorite_border),
+                                                    margin: const EdgeInsets.only(left: 90.0),
+                                                    child: const Icon(Icons.favorite_border),
                                                   ),
 
                                                 ]
@@ -828,17 +848,17 @@ class SixthScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(right: 5.0),
+                                  margin: const EdgeInsets.only(right: 5.0),
                                   height: 100,
                                   width: 200,
                                   child: TextButton(
                                       style:  ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all((Color(0xFFFCF8F1))),
+                                        backgroundColor: MaterialStateProperty.all((const Color(0xFFFCF8F1))),
                                       ),
                                       onPressed: () {
-                                        Navigator.push(ctxt,
+                                        Navigator.push(context,
                                           //Temporary Line
-                                          MaterialPageRoute(builder: (ctxt) => SeventhScreen()),
+                                          MaterialPageRoute(builder: (context) => const SeventhScreen()),
                                         );
                                       },
                                       child:Column(
@@ -851,29 +871,29 @@ class SixthScreen extends StatelessWidget {
 
 
                                             Container(
-                                              margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                              child: Text('Forever 18',
+                                              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                              child: const Text('Forever 18',
                                                 style: TextStyle(color: Colors.grey, fontSize: 12),
                                               ),
                                             ),
 
                                             Container(
-                                              margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                              child: Text('Short Sleeve Top',
+                                              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                              child: const Text('Short Sleeve Top',
                                                 style: TextStyle(color: Colors.black, fontSize: 14),
                                               ),
                                             ),
                                             Row(
                                                 children: <Widget> [
                                                   Container(
-                                                    margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                                    child: Text('\$50.00',
+                                                    margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                                    child: const Text('\$50.00',
                                                       style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
                                                   Container(
-                                                    margin: EdgeInsets.only(left: 90.0),
-                                                    child: Icon(Icons.favorite_border),
+                                                    margin: const EdgeInsets.only(left: 90.0),
+                                                    child: const Icon(Icons.favorite_border),
                                                   ),
 
                                                 ]
@@ -891,7 +911,7 @@ class SixthScreen extends StatelessWidget {
                   ),
 
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Color(0xFFEADACF),
                     ),
                     child: Column(
@@ -899,15 +919,15 @@ class SixthScreen extends StatelessWidget {
                         Row(
                             children:<Widget>[
                               Container(
-                                margin: EdgeInsets.only(top: 20.0, left: 20.0, bottom: 10.0),
-                                child: Text('Medical Wigs',
+                                margin: const EdgeInsets.only(top: 20.0, left: 20.0, bottom: 10.0),
+                                child: const Text('Medical Wigs',
                                   style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontSize: 20),
                                 ),
                               ),
 
                               Container(
-                                  margin: EdgeInsets.only(top: 20.0, left: 170.0, bottom: 10.0),
-                                  child: TextButton(
+                                  margin: const EdgeInsets.only(top: 20.0, left: 145.0, bottom: 10.0),
+                                  child: const TextButton(
                                     onPressed: null,
                                     child:Text('View all'),
                                   )
@@ -917,24 +937,24 @@ class SixthScreen extends StatelessWidget {
                         ),
 
                         Container(
-                          margin: EdgeInsets.only(left: 20.0, top: 10.0, bottom: 20.0),
+                          margin: const EdgeInsets.only(left: 20.0, top: 10.0, bottom: 20.0),
                           width: 400,
                           height: 300,
                           child: ListView(
                               scrollDirection: Axis.horizontal,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(right: 5.0),
+                                  margin: const EdgeInsets.only(right: 5.0),
                                   height: 100,
                                   width: 200,
                                   child: TextButton(
                                       style:  ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all(Color(0xFFEADACF)),
+                                        backgroundColor: MaterialStateProperty.all(const Color(0xFFEADACF)),
                                       ),
                                       onPressed: () {
-                                        Navigator.push(ctxt,
+                                        Navigator.push(context,
                                           //Temporary Line
-                                          MaterialPageRoute(builder: (ctxt) => SeventhScreen()),
+                                          MaterialPageRoute(builder: (context) => const SeventhScreen()),
                                         );
                                       },
                                       child:Column(
@@ -947,29 +967,29 @@ class SixthScreen extends StatelessWidget {
 
 
                                             Container(
-                                              margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                              child: Text('BLH Paris',
+                                              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                              child: const Text('BLH Paris',
                                                 style: TextStyle(color: Colors.grey, fontSize: 12),
                                               ),
                                             ),
 
                                             Container(
-                                              margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                              child: Text('Anti Slip Silicon Wig',
+                                              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                              child: const Text('Anti Slip Silicon Wig',
                                                 style: TextStyle(color: Colors.black, fontSize: 14),
                                               ),
                                             ),
                                             Row(
                                                 children: <Widget> [
                                                   Container(
-                                                    margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                                    child: Text('\$250.00',
+                                                    margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                                    child: const Text('\$250.00',
                                                       style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
                                                   Container(
-                                                    margin: EdgeInsets.only(left: 90.0),
-                                                    child: Icon(Icons.favorite_border),
+                                                    margin: const EdgeInsets.only(left: 90.0),
+                                                    child: const Icon(Icons.favorite_border),
                                                   ),
 
                                                 ]
@@ -979,17 +999,17 @@ class SixthScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(right: 5.0),
+                                  margin: const EdgeInsets.only(right: 5.0),
                                   height: 100,
                                   width: 200,
                                   child: TextButton(
                                       style:  ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all((Color(0xFFEADACF))),
+                                        backgroundColor: MaterialStateProperty.all((const Color(0xFFEADACF))),
                                       ),
                                       onPressed: () {
-                                        Navigator.push(ctxt,
+                                        Navigator.push(context,
                                           //Temporary Line
-                                          MaterialPageRoute(builder: (ctxt) => SeventhScreen()),
+                                          MaterialPageRoute(builder: (context) => const SeventhScreen()),
                                         );
                                       },
                                       child:Column(
@@ -1002,29 +1022,29 @@ class SixthScreen extends StatelessWidget {
 
 
                                             Container(
-                                              margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                              child: Text('BLH Paris',
+                                              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                              child: const Text('BLH Paris',
                                                 style: TextStyle(color: Colors.grey, fontSize: 12),
                                               ),
                                             ),
 
                                             Container(
-                                              margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                              child: Text('Silk Base Lace Front',
+                                              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                              child: const Text('Silk Base Lace Front',
                                                 style: TextStyle(color: Colors.black, fontSize: 14),
                                               ),
                                             ),
                                             Row(
                                                 children: <Widget> [
                                                   Container(
-                                                    margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                                    child: Text('\$200.00',
+                                                    margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                                    child: const Text('\$200.00',
                                                       style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
                                                   Container(
-                                                    margin: EdgeInsets.only(left: 90.0),
-                                                    child: Icon(Icons.favorite_border),
+                                                    margin: const EdgeInsets.only(left: 90.0),
+                                                    child: const Icon(Icons.favorite_border),
                                                   ),
 
                                                 ]
@@ -1034,17 +1054,17 @@ class SixthScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(right: 5.0),
+                                  margin: const EdgeInsets.only(right: 5.0),
                                   height: 100,
                                   width: 200,
                                   child: TextButton(
                                       style:  ButtonStyle(
-                                        backgroundColor: MaterialStateProperty.all((Color(0xFFEADACF))),
+                                        backgroundColor: MaterialStateProperty.all((const Color(0xFFEADACF))),
                                       ),
                                       onPressed: () {
-                                        Navigator.push(ctxt,
+                                        Navigator.push(context,
                                           //Temporary Line
-                                          MaterialPageRoute(builder: (ctxt) => SeventhScreen()),
+                                          MaterialPageRoute(builder: (context) => const SeventhScreen()),
                                         );
                                       },
                                       child:Column(
@@ -1057,29 +1077,29 @@ class SixthScreen extends StatelessWidget {
 
 
                                             Container(
-                                              margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                              child: Text('Forever 18',
+                                              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                              child: const Text('Forever 18',
                                                 style: TextStyle(color: Colors.grey, fontSize: 12),
                                               ),
                                             ),
 
                                             Container(
-                                              margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                              child: Text('Short Sleeve Top',
+                                              margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                              child: const Text('Short Sleeve Top',
                                                 style: TextStyle(color: Colors.black, fontSize: 14),
                                               ),
                                             ),
                                             Row(
                                                 children: <Widget> [
                                                   Container(
-                                                    margin: EdgeInsets.only(top: 5.0, bottom: 5.0),
-                                                    child: Text('\$50.00',
+                                                    margin: const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                                                    child: const Text('\$50.00',
                                                       style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
                                                     ),
                                                   ),
                                                   Container(
-                                                    margin: EdgeInsets.only(left: 90.0),
-                                                    child: Icon(Icons.favorite_border),
+                                                    margin: const EdgeInsets.only(left: 90.0),
+                                                    child: const Icon(Icons.favorite_border),
                                                   ),
 
                                                 ]
@@ -1095,82 +1115,77 @@ class SixthScreen extends StatelessWidget {
                     ),
                   ),
 
-                  Container(
-                    child: Column(
-                        children: <Widget> [
-                          Row(
-                              children:<Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(top: 20.0, left: 20.0, bottom: 10.0),
-                                  child: Text('Your Feed',
-                                    style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontSize: 20),
-                                  ),
+                  Column(
+                      children: <Widget> [
+                        Row(
+                            children:<Widget>[
+                              Container(
+                                margin: const EdgeInsets.only(top: 20.0, left: 20.0, bottom: 10.0),
+                                child: const Text('Your Feed',
+                                  style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontSize: 20),
                                 ),
+                              ),
 
-                                Container(
-                                    margin: EdgeInsets.only(top: 20.0, left: 200.0, bottom: 10.0),
-                                    child: TextButton(
-                                      onPressed: null,
-                                      child:Text('View all'),
-                                    )
-                                ),
+                              Container(
+                                  margin: const EdgeInsets.only(top: 20.0, left: 175.0, bottom: 10.0),
+                                  child: const TextButton(
+                                    onPressed: null,
+                                    child:Text('View all'),
+                                  )
+                              ),
 
-                              ]
+                            ]
+                        ),
+                        Container(
+                          margin: const EdgeInsets.all(10.0),
+                          child: Image.asset(
+                            'assets/images/Page6Section3.png',
                           ),
-                          Container(
-                            margin: EdgeInsets.all(10.0),
-                            child: Image.asset(
-                              'assets/images/Page6Section3.png',
-                            ),
+                        ),
+
+                        Container(
+                          margin: const EdgeInsets.all(10.0),
+                          child: Row(
+                            children: <Widget> [
+                              Container(
+                                margin: const EdgeInsets.only(right: 120.0),
+                                child: const Text('1 day ago | Trends',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+
+                              Container(
+                                margin: const EdgeInsets.only(left:5.0, right: 5.0),
+                                child: const Icon(Icons.favorite_border),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left:5.0, right: 5.0),
+                                child: const Text('680',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left:5.0, right: 5.0),
+                                child: const Icon(Icons.panorama_fisheye),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(left:5.0, right: 5.0),
+                                child: const Text('984',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              ),
+
+                            ],
                           ),
-
-                          Container(
-                            margin: EdgeInsets.all(10.0),
-                            child: Row(
-                              children: <Widget> [
-                                Container(
-                                  margin: EdgeInsets.only(right: 120.0),
-                                  child: Text('1 day ago | Trends',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-
-                                Container(
-                                  margin: EdgeInsets.only(left:5.0, right: 5.0),
-                                  child: Icon(Icons.favorite_border),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left:5.0, right: 5.0),
-                                  child: Text('680',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left:5.0, right: 5.0),
-                                  child: Icon(Icons.panorama_fisheye),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left:5.0, right: 5.0),
-                                  child: Text('984',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ),
-
-                              ],
-                            ),
-                          ),
-
-
-
-
-                        ]
-                    ),
+                        ),
+                      ]
                   ),
 
                 ]
 
             ),
           ),
+          //Bottom bar
           bottomNavigationBar: BottomAppBar(
             shape: const CircularNotchedRectangle(),
             child: Container(
@@ -1247,12 +1262,9 @@ class SixthScreen extends StatelessWidget {
           ),
       );
   }
-
-
-
-
 }
 
+//Seventh Screen class
 class SeventhScreen extends StatelessWidget {
   const SeventhScreen({Key? key}) : super(key: key);
 
@@ -1285,29 +1297,29 @@ class SeventhScreen extends StatelessWidget {
             height: 300,
           ),
           Container(
-            margin: EdgeInsets.only(left:40.0, top: 10.0, right: 40.0, bottom: 10.0),
-            child: Text('Transparent Lace Pink Bob Wig',
+            margin: const EdgeInsets.only(left:40.0, top: 10.0, right: 40.0, bottom: 10.0),
+            child: const Text('Transparent Lace Pink Bob Wig',
               style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontWeight: FontWeight.normal, fontSize: 32, color: Colors.black),
               textAlign: TextAlign.center,
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left:20.0, top: 10.0, right: 20.0, bottom: 10.0),
+            margin: const EdgeInsets.only(left:20.0, top: 10.0, right: 20.0, bottom: 10.0),
             child: Row(
                 children: <Widget> [
-                  Text('\$100.00',
+                  const Text('\$100.00',
                     style: TextStyle(fontSize: 18),
                   ),
                   Container(
-                    margin: EdgeInsets.only(left:80.0),
-                      child: Text('Product Ratings',
+                    margin: const EdgeInsets.only(left:80.0),
+                      child: const Text('Product Ratings',
                     style: TextStyle(fontSize: 18),
                     ),
                   ),
 
                   Container(
-                    margin: EdgeInsets.only(left:60.0),
-                    child: Text('5',
+                    margin: const EdgeInsets.only(left:60.0),
+                    child: const Text('5',
                       style: TextStyle(fontSize: 18),
                     ),
                   ),
@@ -1315,86 +1327,84 @@ class SeventhScreen extends StatelessWidget {
             ),
           ),
           Container(
-            margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 10.0),
-            child: Text('An exciting way to spice up your look, this style creates an amazing look f...More',
+            margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 5.0, bottom: 10.0),
+            child: const Text('An exciting way to spice up your look, this style creates an amazing look f...More',
               style: TextStyle(fontSize: 16),
             ),
           ),
           Container(
-              margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
+              margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 10.0, bottom: 10.0),
             child: Row(
               children: <Widget> [
-                Text('Details',
+                const Text('Details',
                   style: TextStyle(fontSize: 16),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 250.0),
-                  child: Icon(Icons.arrow_drop_down),
+                  margin: const EdgeInsets.only(left: 250.0),
+                  child: const Icon(Icons.arrow_drop_down),
                 ),
               ]
             )
           ),
           Container(
-              margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 1.0, bottom: 10.0),
+              margin: const EdgeInsets.only(left: 20.0, right: 20.0, top: 1.0, bottom: 10.0),
               child: Row(
                   children: <Widget> [
-                    Text('Delivery and returns',
+                    const Text('Delivery and returns',
                       style: TextStyle(fontSize: 16),
                     ),
                     Container(
-                      margin: EdgeInsets.only(left: 160.0),
-                      child: Icon(Icons.arrow_drop_down),
+                      margin: const EdgeInsets.only(left: 160.0),
+                      child: const Icon(Icons.arrow_drop_down),
                     ),
 
                   ]
               )
           ),
 
-          Container(
-              child: Row(
-                  children: <Widget> [
-                    Container(
-                      padding: const EdgeInsets.all(10.0),
-                      width: 300,
-                      height: 70,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                )
+          Row(
+              children: <Widget> [
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  width: 300,
+                  height: 70,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
                             )
-                        ),
-
-                        onPressed: () {
-                          Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => const EightScreen()),
-                          );
-                        },
-                        child: const Text('Try it on now', style: TextStyle(color: Colors.black, fontSize: 18)),
-                      ),
+                        )
                     ),
-                    Container(
-                      padding: const EdgeInsets.all(10.0),
-                      width: 70,
-                      height: 70,
-                      child: ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25.0),
-                                )
+
+                    onPressed: () {
+                      Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => const EightScreen()),
+                      );
+                    },
+                    child: const Text('Try it on now', style: TextStyle(color: Colors.black, fontSize: 18)),
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(10.0),
+                  width: 70,
+                  height: 70,
+                  child: ElevatedButton(
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
+                        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                            RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(25.0),
                             )
-                        ),
-
-                        onPressed: null,
-                        child: Icon(Icons.shopping_bag_outlined)
-                      ),
+                        )
                     ),
-                  ]
-              )
+
+                    onPressed: null,
+                    child: const Icon(Icons.shopping_bag_outlined)
+                  ),
+                ),
+              ]
           ),
 
         ]
@@ -1404,222 +1414,162 @@ class SeventhScreen extends StatelessWidget {
 
 }
 
+//Eight Screen class/Camera page
 class EightScreen extends StatelessWidget {
   const EightScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext ctxt) {
+  Widget build(BuildContext context) {
       return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(
-            color: Colors.black,
-          ),
-          actions: const [
-            IconButton(
-              icon: Icon(Icons.shopping_bag_outlined),
-              onPressed: null,
-              tooltip: 'Shopping Cart',
-            ),
-          ],
-        ),
         body: Container(
-          child: Column(
+          height: 800,
+          child: ListView(
             children: <Widget> [
-              Container(
-                padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 20.0),
-                child: Row(
-                  children: <Widget> [
-                    Container(
-
-                      child: Image.asset(
-                        'assets/images/EighthScreenImage.png',
-                        width: 100,
-                        height: 100,
-                      ),
-                    ),
-
-                    Container(
-                      padding: EdgeInsets.only(left: 10.0),
-                      child: Column(
-                        children: <Widget> [
-                          Container(
-                            padding: EdgeInsets.all(7.0),
-                            child: Text('Pink Bob Wig', style: TextStyle(fontWeight: FontWeight.bold))
-                          ),
-                          Container(
-                              padding: EdgeInsets.all(7.0),
-                              child: Text('BLH Paris')
-                          ),
-                          Container(
-                              padding: EdgeInsets.all(7.0),
-                              child: Text('\$49.99', style: TextStyle(fontWeight: FontWeight.bold))
-                          ),
-                        ]
-                      ),
-                    ),
-
-                    Container(
-                      padding: EdgeInsets.only(left: 70.0, right: 10.0),
-                      child: Icon(Icons.favorite_border),
-                    ),
-
-                    Container(
-                      padding: EdgeInsets.all(10.0),
-                      child: Icon(Icons.add),
-                    ),
-                  ],
-                ),
-              ),
-
               //Camera widget goes here
-              Container(
-                child: new CameraScreen(cameras),
-              ),
+              CameraScreen(cameras),
 
-              Container(
-                child: Column(
-                  children: <Widget> [
-                    Container(
-                      padding: EdgeInsets.only(top: 10.0, right: 270.0),
-                      child: Text('Color palettes'),
-                    ),
-                    Container(
-                      height: 100,
-                      child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: <Widget> [
-                            Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: Icon(Icons.menu, color: Colors.black),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  padding: EdgeInsets.all(20),
-                                  primary: Colors.black, // <-- Button color
-                                ),
-                              ),
-                            ),
-
-
-                            Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: Icon(Icons.menu, color: Color(0xFFF3B1B2)),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  padding: EdgeInsets.all(20),
-                                  primary: Color(0xFFF3B1B2), // <-- Button color
-                                ),
-                              ),
-                            ),
-
-                            Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: Icon(Icons.menu, color: Color(0xFFF5EE7E)),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  padding: EdgeInsets.all(20),
-                                  primary: Color(0xFFF5EE7E), // <-- Button color
-                                ),
-                              ),
-                            ),
-
-                            Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: Icon(Icons.menu, color: Color(0xFFE5AD7C)),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  padding: EdgeInsets.all(20),
-                                  primary: Color(0xFFE5AD7C), // <-- Button color
-                                ),
-                              ),
-                            ),
-
-                            Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                child: Icon(Icons.menu, color: Color(0xFFB79182)),
-                                style: ElevatedButton.styleFrom(
-                                  shape: CircleBorder(),
-                                  padding: EdgeInsets.all(20),
-                                  primary: Color(0xFFB79182), // <-- Button color
-                                ),
-                              ),
-                            ),
-                          ]
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: Row(
+              //Row of colour buttons
+              Column(
+                children: <Widget> [
+                  Container(
+                    padding: const EdgeInsets.only(top: 10.0, right: 270.0),
+                    child: const Text('Color palettes'),
+                  ),
+                  Container(
+                    height: 100,
+                    child: ListView(
+                        scrollDirection: Axis.horizontal,
                         children: <Widget> [
                           Container(
                             padding: const EdgeInsets.all(10.0),
-                            width: 120,
-                            height: 50,
                             child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(25.0),
-                                      )
-                                  )
+                              onPressed: () {},
+                              child: const Icon(Icons.menu, color: Colors.black),
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                padding: const EdgeInsets.all(20),
+                                primary: Colors.black, // <-- Button color
                               ),
-                              onPressed: null,
-                              child: const Text('No Part', style: TextStyle(color: Colors.black, fontSize: 12)),
+                            ),
+                          ),
+
+
+                          Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              child: const Icon(Icons.menu, color: Color(0xFFF3B1B2)),
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                padding: const EdgeInsets.all(20),
+                                primary: const Color(0xFFF3B1B2), // <-- Button color
+                              ),
                             ),
                           ),
 
                           Container(
                             padding: const EdgeInsets.all(10.0),
-                            width: 120,
-                            height: 50,
                             child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(25.0),
-                                      )
-                                  )
+                              onPressed: () {},
+                              child: const Icon(Icons.menu, color: Color(0xFFF5EE7E)),
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                padding: const EdgeInsets.all(20),
+                                primary: const Color(0xFFF5EE7E), // <-- Button color
                               ),
-                              onPressed: null,
-                              child: const Text('Middle Part', style: TextStyle(color: Colors.black, fontSize: 12)),
                             ),
                           ),
 
                           Container(
                             padding: const EdgeInsets.all(10.0),
-                            width: 120,
-                            height: 50,
                             child: ElevatedButton(
-                              style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
-                                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(25.0),
-                                      )
-                                  )
+                              onPressed: () {},
+                              child: const Icon(Icons.menu, color: Color(0xFFE5AD7C)),
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                padding: const EdgeInsets.all(20),
+                                primary: const Color(0xFFE5AD7C), // <-- Button color
                               ),
-                              onPressed: null,
-                              child: const Text('Free Part', style: TextStyle(color: Colors.black, fontSize: 12)),
                             ),
                           ),
 
+                          Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              child: const Icon(Icons.menu, color: Color(0xFFB79182)),
+                              style: ElevatedButton.styleFrom(
+                                shape: const CircleBorder(),
+                                padding: const EdgeInsets.all(20),
+                                primary: const Color(0xFFB79182), // <-- Button color
+                              ),
+                            ),
+                          ),
                         ]
-                      ),
                     ),
-                  ]
-                ),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    child: Row(
+                      children: <Widget> [
+                        Container(
+                          padding: const EdgeInsets.all(10.0),
+                          width: 120,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    )
+                                )
+                            ),
+                            onPressed: null,
+                            child: const Text('No Part', style: TextStyle(color: Colors.black, fontSize: 12)),
+                          ),
+                        ),
+
+                        Container(
+                          padding: const EdgeInsets.all(10.0),
+                          width: 120,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    )
+                                )
+                            ),
+                            onPressed: null,
+                            child: const Text('Middle Part', style: TextStyle(color: Colors.black, fontSize: 12)),
+                          ),
+                        ),
+
+                        Container(
+                          padding: const EdgeInsets.all(10.0),
+                          width: 120,
+                          height: 50,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(const Color(0xFFeadacf)),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                    RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(25.0),
+                                    )
+                                )
+                            ),
+                            onPressed: null,
+                            child: const Text('Free Part', style: TextStyle(color: Colors.black, fontSize: 12)),
+                          ),
+                        ),
+
+                      ]
+                    ),
+                  ),
+                ]
               ),
 
             ],
@@ -1630,14 +1580,442 @@ class EightScreen extends StatelessWidget {
 
 }
 
+//Ninth Screen class
+class NinthScreen extends StatefulWidget {
+
+  NinthScreen({Key? key, required this.videoFile}) : super(key: key);
+
+  late XFile videoFile;
+
+  @override
+  State<StatefulWidget> createState() {
+
+    return NinthScreenState();
+  }
+
+}
+
+class NinthScreenState extends State<NinthScreen> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+
+  @override
+  void initState() {
+    super.initState();
+
+
+    // Create and store the VideoPlayerController. The VideoPlayerController
+    // offers several different constructors to play videos from assets, files,
+    // or the internet.
+    _controller = VideoPlayerController.file(File(widget.videoFile.path));
+
+    // Initialize the controller and store the Future for later use.
+    _initializeVideoPlayerFuture = _controller.initialize();
+
+    // Use the controller to loop the video.
+    _controller.setLooping(true);
+
+  }
+
+  @override
+  void dispose() {
+    // Ensure disposing of the VideoPlayerController to free up resources.
+    _controller.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        bottomOpacity: 0.0,
+        elevation: 0.0,
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
+      ),
+      body: FutureBuilder<void>(
+          future: _initializeVideoPlayerFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              // If the VideoPlayerController has finished initialization, use
+              // the data it provides to limit the aspect ratio of the video.
+              return Container(
+                decoration: const BoxDecoration(
+                  color: Color(0xFFEADACF),
+                ),
+                child: Column(
+                  children: <Widget> [
+                    AspectRatio(
+                      aspectRatio: _controller.value.aspectRatio,
+                      child: VideoPlayer(_controller),
+                    ),
+                    VideoProgressIndicator(
+                      _controller,
+                      allowScrubbing: true,
+                      colors: const VideoProgressColors(
+                        backgroundColor: Color(0xFFF6EFEA),
+                        bufferedColor: Colors.grey,
+                        playedColor: Color(0xFF472723),
+                      ),
+                    ),
+                    Container(
+                      decoration: const BoxDecoration(
+                        color: Color(0xFFEADACF),
+                      ),
+                      height: 124,
+                      child: Row(
+                        children: <Widget> [
+                          Container(
+                            margin: const EdgeInsets.only(left:100.0, right: 10.0),
+                            child: const IconButton(
+                              icon: Icon(
+                                  Icons.favorite_border,
+                              ),
+                              onPressed: null,
+
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(left:10.0, right: 10.0),
+                            child: IconButton(
+                              onPressed: () {
+                                // Wrap the play or pause in a call to `setState`. This ensures the
+                                // correct icon is shown.
+                                setState(() {
+                                  // If the video is playing, pause it.
+                                  if (_controller.value.isPlaying) {
+                                    _controller.pause();
+                                  } else {
+                                    // If the video is paused, play it.
+                                    _controller.play();
+                                  }
+                                });
+                              },
+                              // Display the correct icon depending on the state of the player.
+                              icon: Icon(
+                                _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+                              ),
+                            ),
+                          ),
+
+                          Container(
+                            margin: const EdgeInsets.only(left:10.0, right: 10.0),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.share_outlined,
+                              ),
+                              onPressed: () {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => const TenthScreen()),
+                                );
+                              },
+
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            else {
+              // If the VideoPlayerController is still initializing, show a
+              // loading spinner.
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          }
+      ),
+    );
+
+
+  }
+
+}
+
+//Tenth screen class
+class TenthScreen extends StatelessWidget {
+  const TenthScreen({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        bottomOpacity: 0.0,
+        elevation: 0.0,
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          color: Color(0xFFFCF8F1),
+        ),
+        child: Column(
+          children: <Widget> [
+            SizedBox(
+              height: 150,
+              width: 400,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget> [
+                  Container(
+                    margin: const EdgeInsets.only(top: 50.0, left: 20.0, bottom:15.0),
+                    child: const Text(
+                        'Our Partners',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontWeight: FontWeight.normal, color: Colors.black, fontSize: 36, decoration: TextDecoration.none)
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 15.0, left: 20.0),
+                    child: const Text(
+                      'Save over 55% Off',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              height: 80.0,
+              width: 350,
+              margin: const EdgeInsets.all(10.0),
+              child: Image.asset('assets/images/PartnerLogo1.png'),
+            ),
+
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              height: 80.0,
+              width: 350,
+              margin: const EdgeInsets.all(10.0),
+              child: Image.asset('assets/images/PartnerLogo2.png'),
+            ),
+
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              height: 80.0,
+              width: 350,
+              margin: const EdgeInsets.all(10.0),
+              child: Image.asset('assets/images/PartnerLogo3.png'),
+            ),
+
+            Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+              ),
+              height: 80.0,
+              width: 350,
+              margin: const EdgeInsets.all(10.0),
+              child: Image.asset('assets/images/PartnerLogo4.jpeg'),
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        child: Container(
+          height: 80.0,
+          decoration: const BoxDecoration(
+              border: Border(
+                  top: BorderSide(
+                    color: Colors.grey,
+                  )
+              )
+          ),
+
+
+          child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  child: const TextButton(
+                    onPressed: null,
+                    child: Icon(
+                      Icons.house_outlined,
+                      size: 30.0,
+                    ),
+                  ),
+                ),
+
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  child: const TextButton(
+                    onPressed: null,
+                    child: Icon(
+                      Icons.search,
+                      size: 30.0,
+                    ),
+                  ),
+                ),
+
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  child: const TextButton(
+                    onPressed: null,
+                    child: Icon(
+                      Icons.shopping_bag_outlined,
+                      size: 30.0,
+                    ),
+                  ),
+                ),
+
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  child: const TextButton(
+                    onPressed: null,
+                    child: Icon(
+                      Icons.favorite_border,
+                      size: 30.0,
+                    ),
+                  ),
+                ),
+
+                Container(
+                  padding: const EdgeInsets.all(5.0),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => EleventhScreen()),
+                      );
+                    },
+                    child: const Icon(
+                      Icons.person_outline,
+                      size: 30.0,
+                    ),
+                  ),
+                ),
+              ]
+          ),
+        ),
+      ),
+    );
+  }
+
+}
+
+//Eleventh Screen Class
+class EleventhScreen extends StatelessWidget {
+  EleventhScreen({Key? key}) : super(key: key);
+  //Variables can be set to pull from some other source
+  late String naMessage = 'Sodium: Your levels of sodium are above average. For better results you can reduce your salt intake.';
+  late String phMessage = 'PH: Your PH levels are lower than average. Consider consuming more fluids, especially water.';
+  late num naLevel = 0.7;
+  late num phLevel = 0.7;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        bottomOpacity: 0.0,
+        elevation: 0.0,
+        iconTheme: const IconThemeData(
+          color: Colors.black,
+        ),
+      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget> [
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            child: const Text(
+              'Health & Wellness',
+              style: TextStyle(fontFamily: 'times-new-roman', fontStyle: FontStyle.normal, fontWeight: FontWeight.normal, color: Colors.black, fontSize: 24, decoration: TextDecoration.none),
+            ),
+          ),
+
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            child: Text(
+                naMessage
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            height: 100,
+            width: 100,
+            child: Image.asset(
+              (naLevel > 0.5) ? 'assets/images/NaLevel.png' : 'null',
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            child: Text(
+                phMessage
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(10.0),
+            height: 100,
+            width: 100,
+            child: Image.asset(
+              (phLevel > 0.5) ? 'assets/images/PHLevels.png' : 'null',
+            ),
+          ),
+
+
+          Container(
+            margin: const EdgeInsets.only(top:30),
+            decoration: const BoxDecoration(color: Color(0xFFFCF8F1)),
+            height: 225,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget> [
+                  Container(
+                    margin: const EdgeInsets.only(top: 10.0, left: 20.0, right: 10.0),
+                    height: 80,
+                    width: 80,
+                    child: Image.asset(
+                        'assets/images/caduceus-icon.png'
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.only(top: 40.0),
+                    width: 175,
+                    child: const Text(
+                      'Your Health Data in Real-Time',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+
+                ]
+            )
+          ),
+
+        ]
+      )
+    );
+  }
+
+}
+
+//Camera class and functions
 class CameraScreen extends StatefulWidget {
   List<CameraDescription>? cameras;
 
-  CameraScreen(this.cameras);
+  CameraScreen(this.cameras, {Key? key}) : super(key: key);
 
   @override
   CameraScreenState createState() {
-    return new CameraScreenState();
+    return CameraScreenState();
   }
 }
 
@@ -1648,6 +2026,12 @@ class CameraScreenState extends State<CameraScreen> {
   XFile? imageFile;
   VoidCallback? videoPlayerListener;
   VideoPlayerController? videoController;
+  bool enableAudio = true;
+  double _minAvailableExposureOffset = 0.0;
+  double _maxAvailableExposureOffset = 0.0;
+  double _minAvailableZoom = 1.0;
+  double _maxAvailableZoom = 1.0;
+  var timer;
 
   @override
   void initState() {
@@ -1672,36 +2056,138 @@ class CameraScreenState extends State<CameraScreen> {
     if(!controller.value.isInitialized){
       return Container();
     }
-    return Column(
+    return Stack(
         children: <Widget> [
           Container(
-            height: 300,
+            height: 720,
             width: 400,
-            child: CameraPreview(controller!),
+            child: AspectRatio(
+              aspectRatio: 1.0,
+              child: CameraPreview(controller!),
+            ),
           ),
 
-          _captureControlRowWidget(),
+          Container(
+            padding: const EdgeInsets.only(top: 620),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget> [
+                _screenSwitch(),
+                _captureVideoWidget(),
+                _captureCameraWidget(),
+              ],
+            ),
+          ),
+
+
+
           ]
     );
 
   }
+//Switch screen button
+  Widget _screenSwitch() {
+    if (cameras!.isEmpty) {
+      return const Text('No camera found');
+    }
+    else {
+      return IconButton(
+        icon: Image.asset('assets/images/flip_camera_icon.png',
+        ),
+        iconSize: 50,
+        onPressed: () {
+          controller!.value.isRecordingVideo
+              ? null
+              : _toggleCameraLens();
+        },
+      );
+    }
+  }
 
-  Widget _captureControlRowWidget() {
+  //Currently Unused: creates row of cameras
+  Widget _cameraTogglesRowWidget() {
+    final List<Widget> toggles = <Widget>[];
+
+    final Null Function(CameraDescription? description) onChanged =
+        (CameraDescription? description) {
+      if (description == null) {
+        return;
+      }
+
+      onNewCameraSelected(description);
+    };
+
+    if (cameras!.isEmpty) {
+      return const Text('No camera found');
+    } else {
+      for (final CameraDescription cameraDescription in cameras!) {
+        toggles.add(
+          SizedBox(
+            width: 90.0,
+            child: RadioListTile<CameraDescription>(
+              title: Icon(getCameraLensIcon(cameraDescription.lensDirection)),
+              groupValue: controller?.description,
+              value: cameraDescription,
+              onChanged:
+              controller!.value.isRecordingVideo
+                  ? null
+                  : onChanged,
+            ),
+          ),
+        );
+      }
+    }
+
+    return Row(children: toggles);
+  }
+//Video record button
+  Widget _captureVideoWidget() {
     final CameraController? cameraController = controller;
 
-    return Align(
-      alignment: Alignment.centerRight,
-      child: IconButton(
-        icon: cameraController != null && cameraController.value.isInitialized && !cameraController.value.isRecordingVideo
-            ? Image.asset("assets/images/camera.png")
-            : Image.asset("assets/images/camera_red.png"),
-        onPressed: cameraController != null &&
-            cameraController.value.isInitialized &&
-            !cameraController.value.isRecordingVideo
-            ? onVideoRecordButtonPressed
-            : onStopButtonPressed,
-      ),
+    return IconButton(
+          icon: cameraController != null && cameraController.value.isInitialized && !cameraController.value.isRecordingVideo
+              ? Image.asset("assets/images/camera.png",
+              )
+              : Image.asset("assets/images/camera_red.png",
+          ),
+          iconSize: 60,
+          onPressed: cameraController != null &&
+              cameraController.value.isInitialized &&
+              !cameraController.value.isRecordingVideo
+              ? onVideoRecordButtonPressed
+              : onStopButtonPressed,
+        );
+  }
+
+  //Camera picture button, currently used to progress to next screen
+  Widget _captureCameraWidget() {
+    final CameraController? cameraController = controller;
+
+    return IconButton(
+      icon: const Icon(Icons.camera_alt),
+      iconSize: 40.0,
+      color: Colors.blue,
+      onPressed: cameraController != null &&
+          cameraController.value.isInitialized &&
+          !cameraController.value.isRecordingVideo
+          ? () {Navigator.push(this.context, MaterialPageRoute(builder: (context) => NinthScreen(videoFile: videoFile!,)));}
+          : onTakePictureButtonPressed,
     );
+
+  }
+//Currently unused, gets icon for camera direction
+  IconData getCameraLensIcon(CameraLensDirection direction) {
+    switch (direction) {
+      case CameraLensDirection.back:
+        return Icons.camera_rear;
+      case CameraLensDirection.front:
+        return Icons.camera_front;
+      case CameraLensDirection.external:
+        return Icons.camera;
+      default:
+        throw ArgumentError('Unknown lens direction');
+    }
   }
 
   void showInSnackBar(String message) {
@@ -1714,16 +2200,39 @@ class CameraScreenState extends State<CameraScreen> {
         setState(() {});
       }
     });
+    timer = Timer.periodic(const Duration(seconds: 15), (Timer t) {
+      onStopButtonPressed();
+      timer.cancel();
+    });
   }
+
+  void onTakePictureButtonPressed() {
+    takePicture().then((XFile? file) {
+      if (mounted) {
+        setState(() {
+          imageFile = file;
+          videoController?.dispose();
+          videoController = null;
+        });
+        if (file != null) {
+          showInSnackBar('Picture saved to ${file.path}');
+        }
+      }
+    });
+  }
+
+
 
   void onStopButtonPressed() {
     stopVideoRecording().then((XFile? file) {
       if (mounted) {
         setState(() {});
       }
+      timer.cancel();
       if (file != null) {
         showInSnackBar('Video recorded to ${file.path}');
         videoFile = file;
+        upload(File(videoFile!.path));
         _startVideoPlayer();
       }
     });
@@ -1745,6 +2254,82 @@ class CameraScreenState extends State<CameraScreen> {
       }
       showInSnackBar('Video recording resumed');
     });
+  }
+
+  //function for camera change
+  Future<void> onNewCameraSelected(CameraDescription cameraDescription) async {
+    if (controller != null) {
+      await controller!.dispose();
+    }
+
+    final CameraController cameraController = CameraController(
+      cameraDescription,
+      false ? ResolutionPreset.max : ResolutionPreset.medium,
+      enableAudio: enableAudio,
+      imageFormatGroup: ImageFormatGroup.jpeg,
+    );
+
+    controller = cameraController;
+
+    // If the controller is updated then update the UI.
+    cameraController.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+      if (cameraController.value.hasError) {
+        showInSnackBar(
+            'Camera error ${cameraController.value.errorDescription}');
+      }
+    });
+
+    try {
+      await cameraController.initialize();
+      await Future.wait(<Future<Object?>>[
+        // The exposure mode is currently not supported on the web.
+        ...!false
+            ? <Future<Object?>>[
+          cameraController.getMinExposureOffset().then(
+                  (double value) => _minAvailableExposureOffset = value),
+          cameraController
+              .getMaxExposureOffset()
+              .then((double value) => _maxAvailableExposureOffset = value)
+        ]
+            : <Future<Object?>>[],
+        cameraController
+            .getMaxZoomLevel()
+            .then((double value) => _maxAvailableZoom = value),
+        cameraController
+            .getMinZoomLevel()
+            .then((double value) => _minAvailableZoom = value),
+      ]);
+    } on CameraException catch (e) {
+      _showCameraException(e);
+    }
+
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  Future<XFile?> takePicture() async {
+    final CameraController? cameraController = controller;
+    if (cameraController == null || !cameraController.value.isInitialized) {
+      showInSnackBar('Error: select a camera first.');
+      return null;
+    }
+
+    if (cameraController.value.isTakingPicture) {
+      // A capture is already pending, do nothing.
+      return null;
+    }
+
+    try {
+      final XFile file = await cameraController.takePicture();
+      return file;
+    } on CameraException catch (e) {
+      _showCameraException(e);
+      return null;
+    }
   }
 
   Future<void> startVideoRecording() async {
@@ -1849,8 +2434,84 @@ class CameraScreenState extends State<CameraScreen> {
     await vController.play();
   }
 
+  Future<void> _getAvailableCameras() async{
+    WidgetsFlutterBinding.ensureInitialized();
+    cameras = await availableCameras();
+    _initCamera(cameras!.first);
+  }
+
+  Future<void> _initCamera(CameraDescription description) async{
+    controller = CameraController(description, ResolutionPreset.max, enableAudio: true);
+
+    try{
+      await controller.initialize();
+      // to notify the widgets that camera has been initialized and now camera preview can be done
+      setState((){});
+    }
+    catch(e){
+      print(e);
+    }
+  }
+
+  void _toggleCameraLens() {
+    // get current lens direction (front / rear)
+    final lensDirection = controller.description.lensDirection;
+    CameraDescription newDescription;
+    if (lensDirection == CameraLensDirection.front) {
+      newDescription = cameras!.firstWhere((description) => description
+          .lensDirection == CameraLensDirection.back);
+    }
+    else {
+      newDescription = cameras!.firstWhere((description) => description
+          .lensDirection == CameraLensDirection.front);
+    }
+
+    if (newDescription != null) {
+      _initCamera(newDescription);
+    }
+    else {
+      print('Asked camera not available');
+    }
+  }
+
 }
 
+class DurationState {
+  const DurationState({
+    required this.progress,
+    required this.buffered,
+    this.total,
+  });
+  final Duration progress;
+  final Duration buffered;
+  final Duration? total;
+}
+//File upload
+void upload(File filePath) async {
+  String fileName = basename(filePath.path);
+  print("File base name: $fileName");
+
+  try {
+    FormData formData = FormData.fromMap({
+      "name": "wendux",
+      "age": 25,
+      "file": await MultipartFile.fromFile(filePath.path, filename: fileName)
+    });
+
+    Response response =
+        await Dio().post("http://35.203.80.69/C:/Images/saveFile.php", data: formData);
+        print("File upload response: $response");
+    showSnackBarMessage(response.data['message']);
+  } catch (e) {
+    print("Exception Caught: $e");
+  }
+}
+//Shows message in snackbar
+void showSnackBarMessage(String msg) {
+  _scaffoldstate.currentState?.showSnackBar(SnackBar(content: Text(msg)));
+}
+
+//Error logging function
 void logError(String code, String? message) {
   if (message != null) {
     print('Error: $code\nError Message: $message');
